@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:org:jddp:persistence:sample" xmlns:sample="urn:org:jddp:persistence:sample">
+
+    <!--  This is an example of your model -->
+     <xs:complexType name="Sample">
+      <xs:sequence>
+        <xs:element name="numbers"  type="xs:double" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="strings"  type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="booleans"  type="xs:boolean" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="objects"  type="xs:dateTime" minOccurs="0" maxOccurs="unbounded"/>
+        
+        <xs:element name="number"  type="xs:long"/>
+        <xs:element name="string"  type="xs:string"/>
+        <xs:element name="object"  type="xs:dateTime"/>
+        <xs:element name="boolean"  type="xs:boolean"/>
+        <xs:element name="timestamp"  type="xs:dateTime"/>
+        
+         <xs:element name="byteArray"  type="xs:base64Binary"/>
+        
+        <xs:element name="objectWithArray"  type="sample:Sample2"/>
+        
+      </xs:sequence>
+      </xs:complexType>
+    
+
+	 <xs:complexType name="Sample2">
+      <xs:sequence>
+        <xs:element name="numbers"  type="xs:double" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="strings"  type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="booleans"  type="xs:boolean" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="objects"  type="xs:dateTime" minOccurs="0" maxOccurs="unbounded"/>
+        
+        <xs:element name="number"  type="xs:long"/>
+        <xs:element name="string"  type="xs:string"/>
+        <xs:element name="object"  type="xs:dateTime"/>
+        <xs:element name="boolean"  type="xs:boolean"/>
+        
+         
+         
+        <xs:element name="recursive"  type="sample:Sample2"/>
+        <xs:element name="recursiveArray"  type="sample:Sample2" minOccurs="0" maxOccurs="unbounded"/>
+        
+        <xs:element name="arrayWithSample3AsElementType"  type="sample:Sample3" minOccurs="0" maxOccurs="unbounded"/>
+        
+      </xs:sequence>
+      </xs:complexType>
+      
+      
+      <xs:complexType name="Sample3">
+      <xs:sequence>
+        <xs:element name="numbers"  type="xs:double" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="strings"  type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="booleans"  type="xs:boolean" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="objects"  type="xs:dateTime" minOccurs="0" maxOccurs="unbounded"/>
+        
+        <xs:element name="number"  type="xs:long"/>
+        <xs:element name="string"  type="xs:string"/>
+        <xs:element name="object"  type="xs:dateTime"/>
+        <xs:element name="boolean"  type="xs:boolean"/>
+         
+        <xs:element name="recursive"  type="sample:Sample3"/>
+        <xs:element name="recursiveArray"  type="sample:Sample3" minOccurs="0" maxOccurs="unbounded"/>
+        
+        <xs:element name="arrayWithSample2AsElementType"  type="sample:Sample2" minOccurs="0" maxOccurs="unbounded"/>
+        
+      </xs:sequence>
+      </xs:complexType>
+
+	<!-- Example how to extend so we can add a place holder for primary key -->
+	<xs:complexType name="SampleExtension">
+        <xs:complexContent>
+            <xs:extension base="sample:Sample">
+            	<xs:sequence>
+            		<xs:element name="pkey" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+	<!-- Example how to extend so we can add a place holder for primary key -->
+	<xs:complexType name="SampleExtension2">
+        <xs:complexContent>
+            <xs:extension base="sample:Sample">
+            	<xs:sequence>
+            		<xs:element name="pkey" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

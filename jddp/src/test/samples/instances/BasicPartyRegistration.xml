@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<basic_party_registration:basicPartyRegistrationMessage xmlns:basic_party_registration="urn:gs1:gdsn:basic_party_registration:xsd:3" xmlns:sh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:gs1:gdsn:basic_party_registration:xsd:3 ../Schemas/gs1/gdsn/BasicPartyRegistration.xsd">
+    <sh:StandardBusinessDocumentHeader>
+		<sh:HeaderVersion>1.0</sh:HeaderVersion>
+		<sh:Sender>
+			<sh:Identifier Authority="GS1"/>
+			<sh:ContactInformation>
+				<sh:Contact>John Doe</sh:Contact>
+				<sh:EmailAddress>John_Doe@purchasing.XYZretailer.com</sh:EmailAddress>
+				<sh:FaxNumber>+1-212-555-1213</sh:FaxNumber>
+				<sh:TelephoneNumber>+1-212-555-2122</sh:TelephoneNumber>
+				<sh:ContactTypeIdentifier>Buyer</sh:ContactTypeIdentifier>
+			</sh:ContactInformation>
+		</sh:Sender>
+		<sh:Receiver>
+			<sh:Identifier Authority="GS1"/>
+			<sh:ContactInformation>
+				<sh:Contact>Mary Smith</sh:Contact>
+				<sh:EmailAddress>Mary_Smith@widgets.com</sh:EmailAddress>
+				<sh:FaxNumber>+1-312-555-1214</sh:FaxNumber>
+				<sh:TelephoneNumber>+1-312-555-2125</sh:TelephoneNumber>
+				<sh:ContactTypeIdentifier>Seller</sh:ContactTypeIdentifier>
+			</sh:ContactInformation>
+		</sh:Receiver>
+		<sh:DocumentIdentification>
+			<sh:Standard>GS1</sh:Standard>
+			<sh:TypeVersion>3.1</sh:TypeVersion>
+			<sh:InstanceIdentifier>100002</sh:InstanceIdentifier>
+			<sh:Type/>
+			<sh:MultipleType>false</sh:MultipleType>
+			<sh:CreationDateAndTime>2006-01-10T12:00:01.000-05:00</sh:CreationDateAndTime>
+		</sh:DocumentIdentification>
+	</sh:StandardBusinessDocumentHeader>
+    <transaction>
+        <transactionIdentification>
+            <entityIdentification>20051101</entityIdentification>
+            <contentOwner>
+                <gln>8712345678913</gln>
+            </contentOwner>
+        </transactionIdentification>
+        <documentCommand>
+            <documentCommandHeader type="ADD">
+                <documentCommandIdentification>
+                    <entityIdentification>20051101</entityIdentification>
+                    <contentOwner>
+                        <gln>8712345678913</gln>
+                    </contentOwner>
+                </documentCommandIdentification>
+            </documentCommandHeader>
+            <basic_party_registration:basicPartyRegistration>
+                <creationDateTime>2011-03-11T11:00:00.000-05:00</creationDateTime>
+                <documentStatusCode>ORIGINAL</documentStatusCode>
+                <basicPartyRegistrationIdentification>
+                    <entityIdentification>20051101</entityIdentification>
+                    <contentOwner>
+                        <gln>8712345678913</gln>
+                    </contentOwner>
+                </basicPartyRegistrationIdentification>
+                <partyDataPool>0013345000010</partyDataPool>
+                <transmittingDataPool>0022345000010</transmittingDataPool>
+                <party>
+                    <isPartyActive>true</isPartyActive>
+                    <lastUpdateDateTime>2013-01-10T12:00:01.000-05:00</lastUpdateDateTime>
+                    <registeringParty>0032334500010</registeringParty>
+                    <informationProviderOfParty>
+                        <gln>6712345678913</gln>
+                    </informationProviderOfParty>
+                    <organisationHighestLevelParty>
+                        <gln>6712345678913</gln>
+                    </organisationHighestLevelParty>
+                    <partyAddress>
+                        <city>Atlanta</city>
+                        <countryCode>123</countryCode>
+                        <languageOfThePartyCode>en</languageOfThePartyCode>
+                        <name>Mondial Distribution</name>
+                        <pOBoxNumber>15</pOBoxNumber>
+                        <postalCode>07654</postalCode>
+                        <state>Georgia</state>
+                        <streetAddressOne>1 Peachtree Avenue</streetAddressOne>
+                        <streetAddressTwo>Suite 911</streetAddressTwo>
+                    </partyAddress>
+                    <partyContact>
+                        <contactTypeCode>AP</contactTypeCode>
+                        <personName>Bill Vasserneuse</personName>
+                        <communicationChannel>
+                            <communicationChannelCode>TELEPHONE</communicationChannelCode>
+                            <communicationValue>3738388383</communicationValue>
+                        </communicationChannel>
+                    </partyContact>
+                    <partyCapability>
+						<processCapability>
+							<processCapabilityCode>DATA_SYNCHRONISATION</processCapabilityCode>
+							<processCapabilityEffectiveStartDateTime>2012-04-03T11:00:00.000-05:00</processCapabilityEffectiveStartDateTime>
+							<registeredContext>
+								<contextIdentification>1</contextIdentification>
+								<contextEffectiveStartDateTime>2012-04-03T11:00:00.000-05:00</contextEffectiveStartDateTime>
+							</registeredContext>
+						</processCapability>
+                    </partyCapability>
+                    <partyInRole>
+                        <partyRoleCode>DISTRIBUTOR</partyRoleCode>
+                        <partyName>Shipping</partyName>
+                    </partyInRole>
+                </party>
+            </basic_party_registration:basicPartyRegistration>
+        </documentCommand>
+    </transaction>
+</basic_party_registration:basicPartyRegistrationMessage>

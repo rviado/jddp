@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+	version="2.1"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:a="http://dev.persistence.jddp.org"
+	jaxb:extensionBindingPrefixes="xjc a">
+
+	<jaxb:globalBindings localScoping="toplevel">
+		<jaxb:serializable uid="1"/>
+		<xjc:simple />
+         <xjc:javaType name="java.lang.String" xmlType="xs:string" 	adapter="org.jddp.xml.bind.adapters.StringTrimAdapter"/>
+         <xjc:javaType name="java.time.ZonedDateTime" xmlType="xs:dateTime"	adapter="org.jddp.xml.bind.adapters.XMLDateTimeAdapter"/>
+         <xjc:javaType name="java.time.LocalDate" xmlType="xs:date"	adapter="org.jddp.xml.bind.adapters.XMLDateAdapter"/>
+         <xjc:javaType name="java.time.LocalTime" xmlType="xs:time"	adapter="org.jddp.xml.bind.adapters.XMLTimeAdapter"/>
+	</jaxb:globalBindings>
+
+	<jaxb:bindings schemaLocation="schemas/jddp/sample.xsd" node="/xs:schema">
+		<a:annotation a:class="org.jddp.persistence.entity.annotation.Entity"/>
+	</jaxb:bindings>
+	
+</jaxb:bindings>

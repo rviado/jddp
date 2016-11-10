@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<project name="jddp" default="package">
+	
+	<property name="artifactId" value="jddp-all" />
+	<property name="version" value="1" />
+	
+	<property name="sample-artifactId" value="jddp-sample-model" />
+	<property name="sample-version" value="1" />
+	
+	<property name="runtime-artifactId" value="jddp-runtime" />
+	<property name="runtime-version" value="1" />
+	
+	
+	<property name="query-builder-artifactId" value="jddp-query-builder" />
+	<property name="query-builder-version" value="1" />
+	
+	
+	
+	<path id="project-lib-jar-path">
+		<fileset dir="${basedir}/WebContent/WEB-INF/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="clean">
+		<delete  includeemptydirs="true">
+			<fileset dir="${basedir}/target" includes="*.jar"/>
+		</delete>
+		<delete dir="${basedir}/target/model"/>
+		<delete dir="${basedir}/target/tools"/>
+		<delete dir="${basedir}/target/querybuilder"/>
+		<delete dir="${basedir}/target/persistence"/>
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="${basedir}/src/generated-sources/model/java" includes="**/*"/>
+		</delete>
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="${basedir}/src/generated-sources/querybuilder/java" includes="**/*"/>
+		</delete>
+	</target>
+	
+	<target name="compile-tools">
+		<mkdir dir="${basedir}/target/tools/classes" />
+		<javac destdir="${basedir}/target/tools/classes" includeantruntime="true">
+			
+			<src path="${basedir}/src/main/java/jddp" />
+			<include name="**/*.java" />
+			<!--
+			<include name="org/jddp/persistence/codegen/AntTask.java"/>
+			<include name="org/jddp/persistence/"/>
+			<include name="org/jddp/xjc/annotator/plugin/XJCAnnotatorPlugin.java"/>
+			<include name="org/jddp/xjc/equals/plugin/XJCEqualsPlugin.java"/>
+			<include name="org/jddp/xjc/hashcode/plugin/XJCHashCodePlugin.java"/>
+			-->
+			<compilerarg value="-proc:none" />
+			<classpath>
+				<path refid="project-lib-jar-path" />
+			</classpath>
+		</javac>
+		<copy todir="${basedir}/target/tools/classes">
+			<fileset dir="${basedir}/src/main/resources">
+				<include name="META-INF/**"/>
+				<exclude name="/models/"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="generate-model-source" depends="compile-tools">
+		<mkdir dir="${basedir}/src/generated-sources" />
+		<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task">
+
+			<!-- XJC2 Task classpath -->
+			<classpath>
+				<fileset dir="${basedir}/WebContent/WEB-INF/lib">
+					<include name="activation-*.jar" />
+					<include name="jaxb-api-*.jar" />
+					<include name="jaxb-runtime-*.jar" />
+					<include name="jaxb-core-*.jar" />
+					<include name="jaxb-xjc-*.jar" />
+					<include name="javaparser-*.jar" />
+					<include name="jsr173_api-*.jar" />
+					<include name="stax-api-*.jar" />
+					<include name="junit-*.jar" />
+					<include name="spring-*.jar" />
+					<include name="commons-*.jar" />
+					<include name="annox-*.jar" />
+					<include name="jaxb2-basics-*.jar" />
+					<include name="slf4j*.jar" />
+					<include name="collection-setter-injector-*.jar" />
+				</fileset>
+				<pathelement location="${basedir}/target/tools/classes" />
+			</classpath>
+		</taskdef>
+		<mkdir dir="${basedir}/src/generated-sources/model/java" />
+		<xjc destdir="${basedir}/src/generated-sources/model/java" extension="true">
+			<arg line="
+				-nv
+				-extension
+				-target 2.1
+				-XnotSoSimpleEquals
+				-Xinheritance
+				-XnotSoSimpleHashCode
+				-Xannotate
+				-Xsetters
+				-Xsetters-mode=direct"
+				
+				
+			    />
+			<binding dir="${basedir}/src/main/resources/models">
+				<include name="**/*.xjb" />
+			</binding>
+			<schema dir="${basedir}/src/main/resources/models/schemas">
+				<include name="**/*.xsd" />
+			</schema>
+			
+			<produces dir="${basedir}/src/generated-sources/model/java">
+				<include name="**/*.java" />
+			</produces>
+
+		</xjc>
+	</target>
+
+	<target name="compile-generated-model-source" depends="generate-model-source">
+		<mkdir dir="${basedir}/target/model/classes" />
+		<javac destdir="${basedir}/target/model/classes" includeantruntime="true">
+			<src path="${basedir}/src/generated-sources/model/java" />
+			<src path="${basedir}/src/main/java/jddp/org/jddp/xml/bind/adapters"/>
+			<classpath>
+				<path refid="project-lib-jar-path" />
+				<pathelement location="${basedir}/target/tools/classes" />
+			</classpath>
+		</javac>
+		<copy todir="${basedir}/target/model/classes">
+			<fileset dir="${basedir}/src/main/resources/models">
+				<exclude name="*.xjb"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="generate-query-builder-source" depends="compile-tools, compile-generated-model-source">
+		<taskdef name="QBGenerator"  classname="org.jddp.persistence.codegen.AntTask">
+			<classpath>
+				<path refid="project-lib-jar-path" />
+				<pathelement location="${basedir}/target/model/classes" />
+				<pathelement location="${basedir}/target/tools/classes" />
+			</classpath>
+		</taskdef>
+		
+		<QBGenerator destination="${basedir}/src/generated-sources/querybuilder/java">
+			<!-- SAMPLE -->
+			
+			<entity name="Sample" classname="org.jddp.persistence.sample.SampleExtension" package_="optional.packge"/>
+			<entity name="Sample2" classname="org.jddp.persistence.sample.SampleExtension2" package_="optional.packge"/>
+				
+		</QBGenerator>
+		
+	</target>
+
+	<!-- target name="compile-persistence">
+		<mkdir dir="${basedir}/target/persistence/classes" />
+		<javac destdir="${basedir}/target/persistence/classes" includeantruntime="true">
+			<src path="${basedir}/src/main/java/jddp" />
+			<include name="**/*.java"/>
+			<classpath>
+				<path refid="project-lib-jar-path" />
+			</classpath>
+		</javac>
+	</target -->
+	
+	<target name="compile-generated-model-query-builder-source" depends="generate-query-builder-source">
+		<mkdir dir="${basedir}/target/querybuilder/classes" />
+		<javac destdir="${basedir}/target/querybuilder/classes" includeantruntime="true">
+			<src path="${basedir}/src/generated-sources/querybuilder/java" />
+			<include name="**/*.java"/>
+			<classpath>
+				<path refid="project-lib-jar-path" />
+				<pathelement location="${basedir}/target/persistence/classes" />
+				<pathelement location="${basedir}/target/model/classes" />
+				<pathelement location="${basedir}/target/tools/classes" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="package" depends="clean, compile-generated-model-query-builder-source">
+		<mkdir dir="${basedir}/target" />
+		
+		<jar destfile="${basedir}/target/${sample-artifactId}-${sample-version}.jar"> 
+			<fileset dir="${basedir}/target/model/classes" 	excludes="*.xjb, build.xml, persistence.properties"	includes="**"/>
+			<fileset dir="${basedir}/target/querybuilder/classes" excludes="*.xjb, build.xml, persistence.properties"	includes="**"/>
+		</jar>
+	
+		<jar destfile="${basedir}/target/${runtime-artifactId}-${runtime-version}.jar" basedir="${basedir}/target/tools/classes"/>
+		
+	</target>
+	
+	
+</project>

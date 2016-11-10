@@ -1,0 +1,5 @@
+/bin
+/target
+/.apt_generated
+/src/generated-sources
+/build/

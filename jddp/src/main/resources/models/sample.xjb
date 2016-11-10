@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+	version="2.1"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:a="http://dev.persistence.jddp.org"
+	jaxb:extensionBindingPrefixes="xjc a">
+
+	<jaxb:bindings schemaLocation="schemas/jddp/sample.xsd" node="/xs:schema/xs:complexType[@name='SampleExtension']">
+	    <a:annotation a:class="org.jddp.persistence.entity.annotation.PrimaryKey">
+		    <a:field a:name="fieldName"><a:string a:value="pkey"/></a:field>
+		    <a:field a:name="type"><a:string a:value="uuid"/></a:field>
+		    <a:field a:name="composite">
+			    <a:annotation a:class="org.jddp.persistence.entity.annotation.CompositeKey">
+		    		<a:field a:name="accessors">
+		    			<a:array>
+		    		 		<a:string a:value="getPkey"/> 
+		    		 	</a:array>
+		    		 </a:field>	
+		    		<a:field a:name="compositor"><a:string a:value="optional.packge.SamplePKCompositor"/></a:field>
+			    </a:annotation>
+		    </a:field>
+		</a:annotation>
+	</jaxb:bindings>
+	
+	
+	<jaxb:bindings schemaLocation="schemas/jddp/sample.xsd" node="/xs:schema/xs:complexType[@name='SampleExtension']">
+		<a:annotation a:class="org.jddp.persistence.entity.annotation.Indeces">
+			<a:field a:name="index">
+				<a:array>
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="number"/></a:field>	
+						<a:field a:name="accessor">	<a:string a:value="getNumber"/></a:field>
+						<a:field a:name="type">	<a:string a:value="numeric"/></a:field>
+						<a:field a:name="caseMatters">	<a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint">	<a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="boolean"/></a:field>	
+						<a:field a:name="accessor">	<a:string a:value="isBoolean"/></a:field>
+						<a:field a:name="type"><a:string a:value="boolean"/></a:field>
+						<a:field a:name="caseMatters">	<a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint">	<a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="string"/></a:field>	
+						<a:field a:name="accessor"><a:string a:value="getString"/></a:field>
+						<a:field a:name="type"><a:string a:value="text"/></a:field>
+						<a:field a:name="caseMatters"><a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint"><a:string a:value=""/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="object"/></a:field>	
+						<a:field a:name="accessor"><a:string a:value="getObject"/></a:field>
+						<a:field a:name="type"><a:string a:value="text"/></a:field>
+						<a:field a:name="caseMatters"><a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint"><a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="timestamp"/></a:field>	
+						<a:field a:name="accessor"><a:string a:value="getTimestamp"/></a:field>
+						<a:field a:name="type"><a:string a:value="timestamptz"/></a:field>
+						<a:field a:name="caseMatters"><a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint"><a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+				</a:array>
+			</a:field>
+		</a:annotation>
+	</jaxb:bindings>    
+	
+	<jaxb:bindings schemaLocation="schemas/jddp/sample.xsd" node="/xs:schema/xs:complexType[@name='SampleExtension2']">
+	    <a:annotation a:class="org.jddp.persistence.entity.annotation.PrimaryKey">
+		    <a:field a:name="fieldName"><a:string a:value="pkey"/></a:field>
+		    <a:field a:name="type"><a:string a:value="uuid"/></a:field>
+		    <a:field a:name="composite">
+			    <a:annotation a:class="org.jddp.persistence.entity.annotation.CompositeKey">
+		    		<a:field a:name="accessors">
+		    			<a:array>
+		    		 		<a:string a:value="getPkey"/> 
+		    		 	</a:array>
+		    		 </a:field>	
+		    		<a:field a:name="compositor"><a:string a:value="optional.packge.Sample2PKCompositor"/></a:field>
+			    </a:annotation>
+		    </a:field>
+		</a:annotation>
+	</jaxb:bindings>
+	
+	
+	<jaxb:bindings schemaLocation="schemas/jddp/sample.xsd" node="/xs:schema/xs:complexType[@name='SampleExtension2']">
+		<a:annotation a:class="org.jddp.persistence.entity.annotation.Indeces">
+			<a:field a:name="index">
+				<a:array>
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="number"/></a:field>	
+						<a:field a:name="accessor">	<a:string a:value="getNumber"/></a:field>
+						<a:field a:name="type">	<a:string a:value="numeric"/></a:field>
+						<a:field a:name="caseMatters">	<a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint">	<a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="boolean"/></a:field>	
+						<a:field a:name="accessor">	<a:string a:value="isBoolean"/></a:field>
+						<a:field a:name="type"><a:string a:value="boolean"/></a:field>
+						<a:field a:name="caseMatters">	<a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint">	<a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="string"/></a:field>	
+						<a:field a:name="accessor"><a:string a:value="getString"/></a:field>
+						<a:field a:name="type"><a:string a:value="text"/></a:field>
+						<a:field a:name="caseMatters"><a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint"><a:string a:value=""/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="object"/></a:field>	
+						<a:field a:name="accessor"><a:string a:value="getObject"/></a:field>
+						<a:field a:name="type"><a:string a:value="text"/></a:field>
+						<a:field a:name="caseMatters"><a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint"><a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+					<a:annotation a:class="org.jddp.persistence.entity.annotation.Index">
+						<a:field a:name="fieldName"><a:string a:value="timestamp"/></a:field>	
+						<a:field a:name="accessor"><a:string a:value="getTimestamp"/></a:field>
+						<a:field a:name="type"><a:string a:value="timestamptz"/></a:field>
+						<a:field a:name="caseMatters"><a:boolean a:value="false"/></a:field>
+						<a:field a:name="constraint"><a:string a:value="not null"/></a:field>
+					</a:annotation>
+					
+				</a:array>
+			</a:field>
+		</a:annotation>
+	</jaxb:bindings>
+	
+</jaxb:bindings>

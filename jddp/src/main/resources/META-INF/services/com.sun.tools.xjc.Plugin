@@ -1,0 +1,3 @@
+org.jddp.xjc.annotator.plugin.XJCAnnotatorPlugin
+org.jddp.xjc.equals.plugin.XJCEqualsPlugin
+org.jddp.xjc.hashcode.plugin.XJCHashCodePlugin
