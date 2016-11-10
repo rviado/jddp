@@ -2,6 +2,7 @@ package org.jddp.persistence.pgsql;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 import org.jddp.expression.BooleanExpression;
@@ -83,6 +84,12 @@ public class LiteralExpressionTest extends BaseTest {
 	}
 	
 	
+	@Test
+	public void testLiteralExecuteFunction() {
+		LiteralExpression s = _Sample.newLiteral("now()");
+		ResultSet rs = dml.select(s).where(_Sample.$pkey.eq(key1)).create().execute(con);
+		assertEquals(Timestamp.class, rs.getResultAt(0, 0).getClass());
+	}
 	
 	
 }
