@@ -126,32 +126,32 @@ public class ZDT extends Stringify implements  ZonedDateTimeExpression<StringExp
 	
 	@Override
 	public ZonedDateTimeExpression<?> plus(Period p) {
-		return  new ZDT(new Binary(this, "+ interval", new Str(p.toString()).unBoundVariables() , modifier, dbType));
+		return  new ZDT(new Binary(this, "+ interval", new Literal(p.toString()).quote() , modifier, dbType));
 	}
 
 	@Override
 	public ZonedDateTimeExpression<?> minus(Period p) {
-		return  new ZDT(new Binary(this, "- interval", new Str(p.toString()).unBoundVariables() , modifier, dbType));
+		return  new ZDT(new Binary(this, "- interval", new Literal(p.toString()).quote() , modifier, dbType));
 	}
 	
 	@Override
 	public ZonedDateTimeExpression<?> plus(Duration d) {
-		return  new ZDT(new Binary(this, "+ interval", new Str(d.toString()).unBoundVariables() , modifier, dbType));
+		return  new ZDT(new Binary(this, "+ interval", new Literal(d.toString()).quote() , modifier, dbType));
 	}
 
 	@Override
 	public ZonedDateTimeExpression<?> minus(Duration d) {
-		return  new ZDT(new Binary(this, "- interval", new Str(d.toString()).unBoundVariables() , modifier, dbType));
+		return  new ZDT(new Binary(this, "- interval", new Literal(d.toString()).quote() , modifier, dbType));
 	}
 
 	@Override
 	public ZonedDateTimeExpression<?> plus(Period p, Duration d) {
-		return  new ZDT(new Binary(this, "+ interval", new Str(p.toString() + d.toString().substring(1)).unBoundVariables() , modifier, dbType));
+		return  new ZDT(new Binary(this, "+ interval", new Literal(p.toString() + d.toString().substring(1)).quote() , modifier, dbType));
 	}
 
 	@Override
 	public ZonedDateTimeExpression<?> minus(Period p, Duration d) {
-		return  new ZDT(new Binary(this, "- interval", new Str(p.toString() + d.toString().substring(1)).unBoundVariables() , modifier, dbType));
+		return  new ZDT(new Binary(this, "- interval", new Literal(p.toString() + d.toString().substring(1)).quote() , modifier, dbType));
 	}
 
 	@Override
