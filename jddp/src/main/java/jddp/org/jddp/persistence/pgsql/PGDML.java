@@ -185,8 +185,12 @@ public class PGDML<E> implements DML<E> {
 		
 		Expression<?> e;
 		
-		if (meta.primaryKey instanceof StringFieldExpression) {
-			e = ((StringFieldExpression)meta.primaryKey).in(pkeyValues);
+		if (meta.primaryKey instanceof UUIDFieldExpression) {
+			e = ((UUIDFieldExpression)meta.primaryKey).in(pkeyValues);
+		}  else  if (meta.primaryKey instanceof ZonedDateTimeFieldExpression) {
+			e = ((ZonedDateTimeFieldExpression)meta.primaryKey).in(pkeyValues);
+		}  if (meta.primaryKey instanceof StringFieldExpression<?>) {
+			e = ((StringFieldExpression<?>)meta.primaryKey).in(pkeyValues);
 		} else if (meta.primaryKey instanceof BooleanFieldExpression) {
 			e = ((BooleanFieldExpression)meta.primaryKey).in(pkeyValues);
 		} else if (meta.primaryKey instanceof NumericFieldExpression) {
@@ -249,19 +253,19 @@ public class PGDML<E> implements DML<E> {
 		
 		Expression<?> e;
 		
-		if (meta.primaryKey instanceof StringFieldExpression) {
-			e = ((StringFieldExpression)meta.primaryKey).in(pkeys);
+		if (meta.primaryKey instanceof UUIDFieldExpression) {
+			e = ((UUIDFieldExpression)meta.primaryKey).in(pkeys);
+		}  else  if (meta.primaryKey instanceof ZonedDateTimeFieldExpression) {
+			e = ((ZonedDateTimeFieldExpression)meta.primaryKey).in(pkeys);
+		} else if (meta.primaryKey instanceof StringFieldExpression<?>) {
+			e = ((StringFieldExpression<?>)meta.primaryKey).in(pkeys);
 		} else if (meta.primaryKey instanceof BooleanFieldExpression) {
 			e = ((BooleanFieldExpression)meta.primaryKey).in(pkeys);
 		} else if (meta.primaryKey instanceof NumericFieldExpression) {
 			e = ((NumericFieldExpression)meta.primaryKey).in(pkeys);
 		} else if (meta.primaryKey instanceof ObjectFieldExpression) {
 			e = ((ObjectFieldExpression)meta.primaryKey).in(pkeys);
-		} else if (meta.primaryKey instanceof UUIDFieldExpression) {
-			e = ((UUIDFieldExpression)meta.primaryKey).in(pkeys);
-		}  else  if (meta.primaryKey instanceof ZonedDateTimeFieldExpression) {
-			e = ((ZonedDateTimeFieldExpression)meta.primaryKey).in(pkeys);
-		}  
+		} 
 		
 		else {
 			throw new IllegalArgumentException("Invalid field type -> " + meta.primaryKey.getClass());

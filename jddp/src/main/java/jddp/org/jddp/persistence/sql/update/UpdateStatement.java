@@ -21,8 +21,8 @@ import org.jddp.expression.ZonedDateTimeFieldExpression;
 public interface UpdateStatement extends UpdateConditional {
 	public UpdateConditional where(BooleanExpression<?> whereCondition);
 	
-	public UpdateStatement set(StringFieldExpression field, String value);
-	public UpdateStatement set(StringFieldExpression field, StringExpression<?> value);
+	public UpdateStatement set(StringFieldExpression<?> field, String value);
+	public UpdateStatement set(StringFieldExpression<?> field, StringExpression<?> value);
 	
 	public UpdateStatement set(NumericFieldExpression field, Number value);
 	public UpdateStatement set(NumericFieldExpression field, NumericExpression<?> value);

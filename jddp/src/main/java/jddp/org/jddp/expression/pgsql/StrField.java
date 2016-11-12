@@ -11,7 +11,7 @@ import org.jddp.expression.StringFieldExpression;
 import org.jddp.persistence.pgsql.entity.EntityClass;
 import org.jddp.persistence.util.DBType;
 
-public class StrField extends Field<StringFieldExpression> implements StringFieldExpression {
+public class StrField extends Field<StringFieldExpression<?>> implements StringFieldExpression<StringFieldExpression<?>> {
 
 	private final Str thisAsString;
 	
@@ -303,28 +303,28 @@ public class StrField extends Field<StringFieldExpression> implements StringFiel
 	}
 	
 	@Override
-	public StringFieldExpression unBoundVariables() {
+	public StringFieldExpression<?> unBoundVariables() {
 		return super.unBoundVariables();
 	}
 	
 	@Override
-	public StringFieldExpression parenthesize() {
+	public StringFieldExpression<?> parenthesize() {
 		return super.parenthesize();
 	}
 
 	@Override
-	public StringFieldExpression alias(String alias) {
+	public StringFieldExpression<?> alias(String alias) {
 		return super.alias(alias);
 	}
 
 	@Override
-	public StringFieldExpression qualify(String qualifier) {
+	public StringFieldExpression<?> qualify(String qualifier) {
 		return super.qualify(qualifier);
 	}
 
 
 	@Override
-	public StringFieldExpression copy() {
+	public StringFieldExpression<?> copy() {
 		StrField s;
 		
 		if (this.i != null) {

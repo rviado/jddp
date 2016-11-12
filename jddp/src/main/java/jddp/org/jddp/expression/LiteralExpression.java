@@ -12,4 +12,7 @@ public interface LiteralExpression extends Expression<LiteralExpression> {
 	public ObjectExpression<?>   		asObject(Class<?> type);
 	public ObjectExpression<?>   		asObjectCollection(Class<?> type);
 	
+	public LiteralExpression 	quote();
+	public LiteralExpression 	quote(String q);
+	
 }

@@ -29,9 +29,9 @@ public interface EntityManager<E> {
 	public ObjectFieldExpression newObjectFieldExpression(String xpath, FieldExpression<?> owner);
 	public ObjectFieldExpression newObjectFieldExpression(String xpath, FieldExpression<?> owner, int i);
 	
-	public StringFieldExpression getStringFieldExpression(String xpath);
-	public StringFieldExpression newStringFieldExpression(FieldExpression<?> f, FieldExpression<?> owner);
-	public StringFieldExpression newStringFieldExpression(String xpath, FieldExpression<?> owner);
+	public StringFieldExpression<?> getStringFieldExpression(String xpath);
+	public StringFieldExpression<?> newStringFieldExpression(FieldExpression<?> f, FieldExpression<?> owner);
+	public StringFieldExpression<?> newStringFieldExpression(String xpath, FieldExpression<?> owner);
 	
 	public BooleanFieldExpression getBooleanFieldExpression(String xpath);
 	public BooleanFieldExpression newBooleanFieldExpression(FieldExpression<?> f, FieldExpression<?> owner);

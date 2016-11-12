@@ -4,6 +4,6 @@ public interface ObjectFieldExpression extends FieldExpression<ObjectFieldExpres
 	
 	public BooleanFieldExpression castAsBoolean();
 	public NumericFieldExpression castAsNumeric();
-	public StringFieldExpression castAsString();
+	public StringFieldExpression<?> castAsString();
 	
 }

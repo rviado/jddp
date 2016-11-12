@@ -20,12 +20,12 @@ public class ZDT extends Stringify implements  ZonedDateTimeExpression<StringExp
 	private final boolean leaf;
 	
 	public ZDT(ZonedDateTime zdt) {
-		super(new Var(OffsetDateTime.from(zdt).toString()).unBoundVariables());
+		super(new Literal(OffsetDateTime.from(zdt).toString(), Expression.STRING, DBType.TIMESTAMPTZ).quote());
 		leaf = true;
 	}
 	
 	public ZDT(OffsetDateTime odt) {
-		super(new Var(odt.toString()).unBoundVariables());
+		super(new Literal(odt.toString(), Expression.STRING, DBType.TIMESTAMPTZ).quote());
 		leaf = true;
 	}
 
@@ -38,75 +38,73 @@ public class ZDT extends Stringify implements  ZonedDateTimeExpression<StringExp
 	}
 	
 	@Override
+	public ZonedDateTimeExpression<?> max() {
+		return new ZDT(new Func("MAX", coerce(this), STRING, DBType.TIMESTAMPTZ));
+	}
+
+	@Override
+	public ZonedDateTimeExpression<?> min() {
+		return new ZDT(new Func("MIN", coerce(this), STRING, DBType.TIMESTAMPTZ));
+	}
+	
+	@Override
 	public BooleanExpression<?> eq(ZonedDateTime zdt) {
-		Expression<?> zdte = new Var(OffsetDateTime.from(zdt).toString()).unBoundVariables();
-		return new Bool(new Binary(this, "=", zdte, BOOLEAN, DBType.BOOLEAN));
+		return super.eq(OffsetDateTime.from(zdt).toString());
 	}
 
 	@Override
 	public BooleanExpression<?> neq(ZonedDateTime zdt) {
-		Expression<?> zdte = new Var(OffsetDateTime.from(zdt).toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<>", zdte, BOOLEAN, DBType.BOOLEAN));
+		return super.neq(OffsetDateTime.from(zdt).toString());
 	}
 
 	@Override
 	public BooleanExpression<?> lt(ZonedDateTime zdt) {
-		Expression<?> zdte = new Var(OffsetDateTime.from(zdt).toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<", zdte, BOOLEAN, DBType.BOOLEAN));
+		return super.lt(OffsetDateTime.from(zdt).toString());
 	}
 
 	@Override
 	public BooleanExpression<?> lte(ZonedDateTime zdt) {
-		Expression<?> zdte = new Var(OffsetDateTime.from(zdt).toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<=", zdte, BOOLEAN, DBType.BOOLEAN));
+		return super.lte(OffsetDateTime.from(zdt).toString());
 	}
 
 	@Override
 	public BooleanExpression<?> gt(ZonedDateTime zdt) {
-		Expression<?> zdte = new Var(OffsetDateTime.from(zdt).toString()).unBoundVariables();
-		return new Bool(new Binary(this, ">", zdte, BOOLEAN, DBType.BOOLEAN));
+		return super.gt(OffsetDateTime.from(zdt).toString());
 	}
 
 	@Override
 	public BooleanExpression<?> gte(ZonedDateTime zdt) {
-		Expression<?> zdte = new Var(OffsetDateTime.from(zdt).toString()).unBoundVariables();
-		return new Bool(new Binary(this, ">=", zdte, BOOLEAN, DBType.BOOLEAN));
+		return super.gte(OffsetDateTime.from(zdt).toString());
 	}
 
 
 	public BooleanExpression<?> eq(OffsetDateTime odt) {
-		Expression<?> odte = new Var(odt.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "=", odte, BOOLEAN, DBType.BOOLEAN));
+		return super.eq(odt.toString());
 	}
-
+		
 	@Override
 	public BooleanExpression<?> neq(OffsetDateTime odt) {
-		Expression<?> odte = new Var(odt.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<>", odte, BOOLEAN, DBType.BOOLEAN));
+		return super.neq(odt.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> lt(OffsetDateTime odt) {
-		Expression<?> odte = new Var(odt.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<", odte, BOOLEAN, DBType.BOOLEAN));
+		return super.lt(odt.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> lte(OffsetDateTime odt) {
-		Expression<?> odte = new Var(odt.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<=", odte, BOOLEAN, DBType.BOOLEAN));
+		return super.lte(odt.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> gt(OffsetDateTime odt) {
-		Expression<?> odte = new Var(odt.toString()).unBoundVariables();
-		return new Bool(new Binary(this, ">", odte, BOOLEAN, DBType.BOOLEAN));
+		return super.gt(odt.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> gte(OffsetDateTime odt) {
-		Expression<?> odte = new Var(odt.toString()).unBoundVariables();
-		return new Bool(new Binary(this, ">=", odte, BOOLEAN, DBType.BOOLEAN));
+		return super.gte(odt.toString());
 	}
 	
 	@Override
@@ -121,9 +119,9 @@ public class ZDT extends Stringify implements  ZonedDateTimeExpression<StringExp
 	public BooleanExpression<?> between(OffsetDateTime odt1, OffsetDateTime odt2) {
 		return new Bool(new Trinary(
 				this, "BETWEEN", 
-				new Var(odt1.toString()).unBoundVariables(), 
+				new Str(odt1.toString()).unBoundVariables(), 
 				"AND", 
-				new Var(odt2.toString()).unBoundVariables(), BOOLEAN, DBType.BOOLEAN ));
+				new Str(odt2.toString()).unBoundVariables(), BOOLEAN, DBType.BOOLEAN ));
 	}
 	
 	@Override
@@ -184,13 +182,13 @@ public class ZDT extends Stringify implements  ZonedDateTimeExpression<StringExp
 
 	@Override
 	public BooleanExpression<?> inIgnoreCase(Collection<?> c) {
-		//case does not matter
+		//case really does not matter
 		return super.in(convert(c));
 	}
 
 	@Override
 	public BooleanExpression<?> notInIgnoreCase(Collection<?> c) {
-		//case does not matter
+		//case really does not matter
 		return super.notIn(convert(c));
 	}
 	

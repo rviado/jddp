@@ -95,7 +95,7 @@ public class Update<E>  implements UpdateStatement,  UpdateConditional, UpdateCo
 	}
 	
 	@Override
-	public UpdateStatement set(StringFieldExpression field, String value) {
+	public UpdateStatement set(StringFieldExpression<?> field, String value) {
 		
 		if (value == null) {
 			unset(field);
@@ -118,7 +118,7 @@ public class Update<E>  implements UpdateStatement,  UpdateConditional, UpdateCo
 	}
 
 	@Override
-	public UpdateStatement set(StringFieldExpression field, StringExpression<?> value) {
+	public UpdateStatement set(StringFieldExpression<?> field, StringExpression<?> value) {
 		
 		if (value == null || value.isNil()) {
 			return unset(field);

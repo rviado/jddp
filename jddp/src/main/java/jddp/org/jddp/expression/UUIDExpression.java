@@ -11,4 +11,7 @@ public interface UUIDExpression<E extends StringExpression<?>> extends StringExp
 	public BooleanExpression<?> gt(UUID uuid);
 	public BooleanExpression<?> gte(UUID uuid);
 	
+	public UUIDExpression<?> max();
+	public UUIDExpression<?> min();
+	
 }

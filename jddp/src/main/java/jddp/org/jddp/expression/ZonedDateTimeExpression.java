@@ -40,4 +40,8 @@ public interface ZonedDateTimeExpression<E extends StringExpression<?>> extends 
 	public ObjectExpression<?> age(ZonedDateTime zdt);
 	public ObjectExpression<?> age(OffsetDateTime odt);
 	
+	public ZonedDateTimeExpression<?> max();
+	public ZonedDateTimeExpression<?> min();
+	
+	
 }

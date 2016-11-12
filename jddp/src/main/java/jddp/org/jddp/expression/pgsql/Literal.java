@@ -83,6 +83,20 @@ public class Literal extends AbstractExpression<Literal, LiteralExpression> impl
 	}
 
 	@Override
+	public LiteralExpression quote() {
+		Literal c = new Literal(this);
+		c._toString = "$$" + _toString + "$$";
+		return c;
+	}
+
+	@Override
+	public LiteralExpression quote(String q) {
+		Literal c = new Literal(this);
+		c._toString = q + _toString + q;
+		return c;
+	}
+
+	@Override
 	public LiteralExpression unBoundVariables() {
 		return super.unBoundVariables();
 	}

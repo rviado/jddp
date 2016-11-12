@@ -1,6 +1,6 @@
 package org.jddp.expression;
 
-public interface StringFieldExpression extends FieldExpression<StringFieldExpression>, StringExpression<StringFieldExpression> {
+public interface StringFieldExpression<E extends StringFieldExpression<?>> extends FieldExpression<E>, StringExpression<E> {
 
 	
 }

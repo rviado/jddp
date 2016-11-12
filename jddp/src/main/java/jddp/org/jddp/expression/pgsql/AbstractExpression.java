@@ -148,7 +148,11 @@ public abstract class AbstractExpression<X extends AbstractExpression<?,?>, E ex
 		switch (type) {
 		case TIMESTAMP:
 		case TIMESTAMPTZ:
+			ue = new Cast(this, STRING, type);
+			return (T) new ZDT(ue);
 		case UUID:
+			ue = new Cast(this, STRING, type);
+			return (T) new UID(ue);
 		case TEXT:
 			ue = new Cast(this, STRING, type);
 			return (T) new Str(ue);

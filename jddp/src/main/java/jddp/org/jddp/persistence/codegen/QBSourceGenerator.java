@@ -107,6 +107,13 @@ public class QBSourceGenerator {
      JClass jNumericExpression = jModel.ref(NumericExpression.class).narrow(jModel.wildcard());
      JClass jObjectExpression = jModel.ref(ObjectExpression.class).narrow(jModel.wildcard());
      
+     JClass jZonedDateTimeFieldExpression = jModel.ref(ZonedDateTimeFieldExpression.class);
+     JClass jUUIDFieldExpression = jModel.ref(UUIDFieldExpression.class);
+     JClass jBooleanFieldExpression = jModel.ref(BooleanFieldExpression.class);
+     JClass jNumericFieldExpression = jModel.ref(NumericFieldExpression.class);
+     JClass jStringFieldExpression = jModel.ref(StringFieldExpression.class).narrow(jModel.wildcard());
+     JClass jObjectFieldExpression = jModel.ref(ObjectFieldExpression.class);
+     
     
      public void parse(Class<?> entity, String rootElement, String package_) throws IntrospectionException, JClassAlreadyExistsException, ClassNotFoundException {
     	 
@@ -130,7 +137,7 @@ public class QBSourceGenerator {
      	jEntityManager = jRootClass.field(JMod.PRIVATE | JMod.STATIC |JMod.FINAL, jEntityManagerIntClass.narrow(entity) , "em");
      	jEntityManager.init(jEntityManagerIntClass.staticInvoke("newInstance").arg(jEntity.dotclass()).arg(rootElement));
      	
-        jJSONField = jRootClass.field(JMod.PUBLIC | JMod.STATIC |JMod.FINAL, getTypeFieldExpressionInterface(Object.class), "$");
+        jJSONField = jRootClass.field(JMod.PUBLIC | JMod.STATIC |JMod.FINAL, jObjectFieldExpression, "$");
         jJSONField.init(getEntityField("$", Object.class));
          
         
@@ -140,7 +147,7 @@ public class QBSourceGenerator {
  			String primaryKeyName = primaryKey.fieldName() == null || primaryKey.fieldName().trim().isEmpty() ? "pkey" : primaryKey.fieldName().trim();
  			
  			primaryKeyType = getFieldType(primaryKey.type());
- 			JClass jPKeyExpressionType = jModel.ref(getTypeFieldExpressionInterface(primaryKey.type()));
+ 			JClass jPKeyExpressionType = getTypeFieldExpressionInterface(primaryKey.type());
  			
  			jPrimaryKey = jRootClass.field(JMod.PUBLIC | JMod.STATIC |JMod.FINAL, jPKeyExpressionType, "$" + primaryKeyName);
  			jPrimaryKey.init(jEntityManager.invoke("getPrimaryKey").arg(jPKeyExpressionType.dotclass()));
@@ -248,9 +255,8 @@ public class QBSourceGenerator {
 					
 					xpath = fieldPrefix + "/" + classXPathLastComponent;
 					
-					JClass jObjectFieldInt = jModel.ref(getTypeFieldExpressionInterface(Object.class));
     		    	JDefinedClass newJClass = jEnclosingClass._class(mods, StringUtils.capitalize(propertyName));// ._extends(jObjectFieldImpl);
-    		    	JFieldVar j_this = newJClass.field(JMod.PUBLIC | JMod.FINAL, jObjectFieldInt, newJClass.name());
+    		    	JFieldVar j_this = newJClass.field(JMod.PUBLIC | JMod.FINAL, jObjectFieldExpression, newJClass.name());
     		    	
 					createConstructorAndIntitializeThis(xpath, mods, newJClass, propertyName, jEnclosingClass, j_this, isCollection);
 					
@@ -271,15 +277,13 @@ public class QBSourceGenerator {
      private void createConstructorAndIntitializeThis(String xpath, int mods, JDefinedClass newJClass, String propertyName,  JDefinedClass jEnclosingClass, JFieldVar j_this, boolean isCollection) throws ClassNotFoundException, JClassAlreadyExistsException {
     	 
     	
-    	JClass jObjectFieldInt = jModel.ref(getTypeFieldExpressionInterface(Object.class));
-    	
     	boolean isRoot = jEnclosingClass.equals(jRootClass);
 
     	if (isRoot) {
-    		JFieldVar c = jEnclosingClass.field(mods, jObjectFieldInt, newJClass.name());
+    		JFieldVar c = jEnclosingClass.field(mods, jObjectFieldExpression, newJClass.name());
     		c.init(JExpr._new(newJClass).ref(newJClass.name()));
     	} else {
-    		JFieldVar c = jEnclosingClass.field(mods, jObjectFieldInt, newJClass.name());
+    		JFieldVar c = jEnclosingClass.field(mods, jObjectFieldExpression, newJClass.name());
     		
     		JMethod con = jEnclosingClass.getConstructor(new JType[] {});
     		con.body().assign(c, JExpr._new(newJClass).ref(newJClass.name()));
@@ -301,7 +305,7 @@ public class QBSourceGenerator {
 		jMethod.body()._return(JExpr._new(newJClass));
 		
 		
-		newJClass.method(JMod.PUBLIC | JMod.FINAL, jObjectFieldInt, "_this").body()._return(j_this);
+		newJClass.method(JMod.PUBLIC | JMod.FINAL, jObjectFieldExpression, "_this").body()._return(j_this);
 		
 		if (isCollection) {
 			constructorBody = addIndexedConstructorAndAccessor(xpath, mods, newJClass, propertyName, jEnclosingClass, j_this);
@@ -341,7 +345,7 @@ public class QBSourceGenerator {
     	boolean isRoot = jDefinedClass.equals(jRootClass);
     	
     	//code : internal.getField(xpath, XXXField.class)
-    	JClass jFieldInt = jModel.ref(getTypeFieldExpressionInterface(returnType));
+    	JClass jFieldInt = getTypeFieldExpressionInterface(returnType);
 
 		//code : XXXField field = new XXXField(internal.getField("ItemDataLine/manufacturer/partyName", XXXField.class), owner);
     	JVar jField;
@@ -371,7 +375,7 @@ public class QBSourceGenerator {
     	boolean isRoot = jDefinedClass.equals(jRootClass);
     	
     	//code : internal.getField(xpath, ObjField.class)
-    	JClass jTypeInterface = jModel.ref(getTypeFieldExpressionInterface(returnType));
+    	JClass jTypeInterface = getTypeFieldExpressionInterface(returnType);
 		
 		//code : public final XXXExpression methodName(int i)
 		JMethod jMethod = jDefinedClass.method(mods, jTypeInterface, methodName);
@@ -548,41 +552,57 @@ public class QBSourceGenerator {
 	}
     
     
-    private Class<?> getTypeFieldExpressionInterface(String type)  {
+    private JClass getTypeFieldExpressionInterface(String type)  {
 
     	switch (DBType.from(type)) {
 		case TIMESTAMP:
 		case TIMESTAMPTZ:
-			return ZonedDateTimeFieldExpression.class;
+			return jZonedDateTimeFieldExpression;
 		case UUID:
-			return UUIDFieldExpression.class;
+			return jUUIDFieldExpression;
 		case BOOLEAN:
-			return BooleanFieldExpression.class;
+			return jBooleanFieldExpression;
 		case NUMERIC:
-			return NumericFieldExpression.class;
+			return jNumericFieldExpression;
 		case TEXT:
-			return StringFieldExpression.class;
+			return jStringFieldExpression;
 		case JSON: 
 		case JSONB:
 		default:
-			return ObjectFieldExpression.class;
+			return jObjectFieldExpression;
 		
 		}
 	}
     
-    private Class<?> getTypeFieldExpressionInterface(Class<?> typeClass) {
+    private JClass getTypeFieldExpressionInterface(Class<?> typeClass) {
 	
 		if (TypeUtil.isBoolean(typeClass)) {
-			return BooleanFieldExpression.class;
+			return jBooleanFieldExpression;
 		} 
 		if (TypeUtil.isNumeric(typeClass)) {
-			return NumericFieldExpression.class;
+			return jNumericFieldExpression;
 		} 
 		if (TypeUtil.isString(typeClass)) {
-			return StringFieldExpression.class;
+			return jStringFieldExpression;
 		} 
 		
-		return ObjectFieldExpression.class;
+		return jObjectFieldExpression;
+    }
+    
+    
+    private String getFieldExpressionInterfaceName(Class<?> typeClass) {
+    	
+		if (TypeUtil.isBoolean(typeClass)) {
+			return BooleanFieldExpression.class.getSimpleName();
+		} 
+		if (TypeUtil.isNumeric(typeClass)) {
+			return NumericFieldExpression.class.getSimpleName();
+		} 
+		if (TypeUtil.isString(typeClass)) {
+			return StringFieldExpression.class.getSimpleName();
+		} 
+		
+		return ObjectFieldExpression.class.getSimpleName();
     }
     
     
@@ -619,15 +639,15 @@ public class QBSourceGenerator {
  	}
     
     private JInvocation newEntityField(String xpath, Class<?> type) {
-    	 return jEntityManager.invoke("new"  + getTypeFieldExpressionInterface(type).getSimpleName()).arg(xpath);
+    	 return jEntityManager.invoke("new"  + getFieldExpressionInterfaceName(type)).arg(xpath);
     }
     
     private JInvocation getEntityField(String xpath, Class<?> type)  {
-   	 return jEntityManager.invoke("get"  + getTypeFieldExpressionInterface(type).getSimpleName()).arg(xpath);
+   	 return jEntityManager.invoke("get"  + getFieldExpressionInterfaceName(type)).arg(xpath);
    }
     
     private JInvocation getEntityField(String xpath, String type)  {
-      	 return jEntityManager.invoke("getFieldExpression").arg(xpath).arg(jModel.ref(getTypeFieldExpressionInterface(type)).dotclass());
+      	 return jEntityManager.invoke("get" + FieldExpression.class.getSimpleName()).arg(xpath).arg(getTypeFieldExpressionInterface(type).dotclass());
       }
     
     public static void main(String[] args) throws ClassNotFoundException, JClassAlreadyExistsException, IOException, IntrospectionException {

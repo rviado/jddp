@@ -258,7 +258,7 @@ public class ObjField extends Field<ObjectFieldExpression> implements ObjectFiel
 	}
 	
 	@Override 
-	public StringFieldExpression castAsString() {
+	public StringFieldExpression<?> castAsString() {
 		return new StrField(this, owner, i);
 	}
 	

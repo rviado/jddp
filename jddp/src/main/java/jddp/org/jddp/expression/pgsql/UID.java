@@ -16,7 +16,7 @@ public class UID extends Stringify implements  UUIDExpression<StringExpression<?
 	private final boolean leaf;
 	
 	public UID(UUID uuid) {
-		super(new Var(uuid.toString()).unBoundVariables());
+		super(new Literal("$$" + uuid.toString() + "$$", Expression.STRING, DBType.UUID));
 		leaf = true;
 	}
 
@@ -29,39 +29,43 @@ public class UID extends Stringify implements  UUIDExpression<StringExpression<?
 	}
 	
 	@Override
+	public UUIDExpression<?> max() {
+		return new UID(new Func("MAX", coerce(this), STRING, DBType.UUID));
+	}
+
+	@Override
+	public UUIDExpression<?> min() {
+		return new UID(new Func("MIN", coerce(this), STRING, DBType.UUID));
+	}
+
+	@Override
 	public BooleanExpression<?> eq(UUID uuid) {
-		Expression<?> uuide = new Var(uuid.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "=", uuide, Expression.BOOLEAN, DBType.BOOLEAN));
+		return super.eq(uuid.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> neq(UUID uuid) {
-		Expression<?> uuide = new Var(uuid.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<>", uuide, BOOLEAN, DBType.BOOLEAN));
+		return super.neq(uuid.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> lt(UUID uuid) {
-		Expression<?> uuide = new Var(uuid.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<", uuide, BOOLEAN, DBType.BOOLEAN));
+		return super.lt(uuid.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> lte(UUID uuid) {
-		Expression<?> uuide = new Var(uuid.toString()).unBoundVariables();
-		return new Bool(new Binary(this, "<=", uuide, BOOLEAN, DBType.BOOLEAN));
+		return super.lte(uuid.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> gt(UUID uuid) {
-		Expression<?> uuide = new Var(uuid.toString()).unBoundVariables();
-		return new Bool(new Binary(this, ">", uuide, BOOLEAN, DBType.BOOLEAN));
+		return super.gt(uuid.toString());
 	}
 
 	@Override
 	public BooleanExpression<?> gte(UUID uuid) {
-		Expression<?> uuide = new Var(uuid.toString()).unBoundVariables();
-		return new Bool(new Binary(this, ">=", uuide, BOOLEAN, DBType.BOOLEAN));
+		return super.gte(uuid.toString());
 	}
 
 	@Override

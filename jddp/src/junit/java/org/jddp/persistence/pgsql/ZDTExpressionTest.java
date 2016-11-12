@@ -14,8 +14,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.jddp.expression.BooleanExpression;
+import org.jddp.expression.StringExpression;
+import org.jddp.expression.UUIDExpression;
 import org.jddp.expression.VariableExpression;
 import org.jddp.expression.ZonedDateTimeExpression;
 import org.jddp.persistence.sql.ResultSet;
@@ -41,6 +44,62 @@ public class ZDTExpressionTest extends BaseTest {
 	    assertEquals("P1Y2M3DT4H5M6.0S", rs.getResultAt(0, 0));
 	}
 	
+	
+	@Test
+	public void testTimetstampFieldMax() {
+		
+		ZonedDateTimeExpression<?> e = _Sample.$timestamp.max();
+		
+		Set<VariableExpression> p = e.getBoundVariables();
+
+		assertEquals(0, p.size());
+		
+	    assertEquals("MAX(" + _Sample.$timestamp + ")",  e.toString());
+		
+	    ResultSet rs = dml.select(e).create().execute(con);
+	    ZonedDateTime zdt = rs.getResultAt(0, 0, ZonedDateTime.class);
+	    
+	    assertTrue(zdt.isEqual(zdt2));
+	   
+	}
+	
+	
+	@Test
+	public void testTimetstampMax() {
+		UUID uuid = UUID.randomUUID();
+		
+		UUIDExpression<?> e = _Sample.newLiteral(uuid.toString()).quote().asUUID().max();
+		
+		Set<VariableExpression> p = e.getBoundVariables();
+
+		assertEquals(0, p.size());
+		
+	    assertEquals("MAX($$" + uuid + "$$)",  e.toString());
+		
+	    ResultSet rs = dml.select(e).create().execute(con);
+	    String u = rs.getResultAt(0, 0, String.class);
+	    
+	    assertEquals(uuid.toString(), u);
+	   
+	}
+	
+	@Test
+	public void testTimetstampMin() {
+		
+		ZonedDateTimeExpression<?> e = _Sample.$timestamp.min();
+		
+		Set<VariableExpression> p = e.getBoundVariables();
+
+		assertEquals(0, p.size());
+		
+	    assertEquals("MIN(" + _Sample.$timestamp + ")",  e.toString());
+		
+	    ResultSet rs = dml.select(e).create().execute(con);
+	    ZonedDateTime zdt = rs.getResultAt(0, 0, ZonedDateTime.class);
+	    
+	    assertTrue(zdt.isEqual(zdt1));
+	   
+	}
 	
 	@Test
 	public void testTimetstampPlusDurationOnly() {
@@ -201,9 +260,9 @@ public class ZDTExpressionTest extends BaseTest {
 		
 		Set<VariableExpression> p = e.getBoundVariables();
 
-		assertEquals(0, p.size());
+		assertEquals(1, p.size());
 		
-	    assertEquals(_Sample.$timestamp + " = $$" + OffsetDateTime.from(d1) + "$$", e.toString());
+	    assertEquals(_Sample.$timestamp + " = CAST(:" + p.iterator().next().getName() + " as timestamptz)", e.toString());
 		
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
 	    assertEquals(false, rs.getResultAt(0, 0));
@@ -240,9 +299,9 @@ public class ZDTExpressionTest extends BaseTest {
 			assertEquals(utc, vi.next());
 		}
 		
-	    assertEquals(_Sample.$timestamp + " = ANY(:" + name1 +  ")", e.toString());
+	   assertEquals(_Sample.$timestamp + " = ANY(:" + name1 +  ")", e.toString());
 	    
-	    assertEquals(_Sample.$timestamp + " = ANY($${" + utcs.get(0) +  ", "  +  utcs.get(1) + "}$$)", e.unBoundVariables().toString());
+	   assertEquals(_Sample.$timestamp + " = ANY($${" + utcs.get(0) +  ", "  +  utcs.get(1) + "}$$)", e.unBoundVariables().toString());
 		
 		
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);

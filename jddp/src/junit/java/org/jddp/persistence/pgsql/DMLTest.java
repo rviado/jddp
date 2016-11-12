@@ -89,7 +89,15 @@ public class DMLTest extends BaseTest {
 		assertEquals(1, l.size());
 		assertEquals(s1, l.get(0));
 		
+		//Treat UUIDFieldExpressions as StringFieldExpression
+		try {
+			dml.update().set(_Sample.$pkey, UUID.randomUUID().toString()).where(_Sample.$pkey.eq(key)).create().execute(con);
+			fail("Expected JDDPException did not occur");
+		} catch (JDDPException e) {
+			ConnectionProvider.rollbackQuietly(con);
+		}
 		
+		//Treat UUIDFieldExpressions as UUIDFieldExpression
 		try {
 			dml.update().set(_Sample.$pkey, UUID.randomUUID()).where(_Sample.$pkey.eq(key)).create().execute(con);
 			fail("Expected JDDPException did not occur");

@@ -80,18 +80,18 @@ public class PGEntityManager<E> implements EntityManager<E> {
 	
 
 	@Override
-	public StringFieldExpression getStringFieldExpression(String xpath) {
-		return (StringFieldExpression) entityClass.getField(xpath);
+	public StringFieldExpression<?> getStringFieldExpression(String xpath) {
+		return (StringFieldExpression<?>) entityClass.getField(xpath);
 	}
 
 
 	@Override
-	public StringFieldExpression newStringFieldExpression(FieldExpression<?> f, FieldExpression<?> owner) {
+	public StringFieldExpression<?> newStringFieldExpression(FieldExpression<?> f, FieldExpression<?> owner) {
 		return new StrField((StrField) f, owner);
 	}
 	
 	@Override
-	public StringFieldExpression newStringFieldExpression(String xpath, FieldExpression<?> owner) {
+	public StringFieldExpression<?> newStringFieldExpression(String xpath, FieldExpression<?> owner) {
 		return new StrField((StrField) getStringFieldExpression(xpath), owner);
 	}
 

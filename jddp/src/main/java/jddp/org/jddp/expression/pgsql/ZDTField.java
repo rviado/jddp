@@ -19,23 +19,32 @@ import org.jddp.persistence.util.DBType;
 
 
 
-public class ZDTField extends Field<ZonedDateTimeFieldExpression> implements StringExpression<ZonedDateTimeFieldExpression>, ZonedDateTimeFieldExpression {
+public class ZDTField extends Field<ZonedDateTimeFieldExpression> implements  ZonedDateTimeFieldExpression {
 	
 	private final ZDT thisAsZonedDateTime;
-	private final Stringify stringified;
 	
 	public ZDTField(ZDTField o, FieldExpression<?> owner) {
 		super(o, owner, null);
 		thisAsZonedDateTime = new ZDT(this);
-		stringified = new Stringify(this);
 	}
 	
 	public ZDTField(String xpath, String prefix, String fieldName, Class<?> arrayType, Class<?> type, DBType dbType,
 			int modifier, EntityClass<?> entityClass, String[] accessor) {
 		super(xpath, prefix, fieldName, arrayType, type, dbType, modifier, entityClass, accessor);
 		thisAsZonedDateTime = new ZDT(this);
-		stringified = new Stringify(this);
 	}
+	
+	
+	@Override
+	public ZonedDateTimeExpression<?> max() {
+		return thisAsZonedDateTime.max();
+	}
+
+	@Override
+	public ZonedDateTimeExpression<?> min() {
+		return thisAsZonedDateTime.min();
+	}
+
 	
 	@Override
 	public BooleanExpression<?> eq(ZonedDateTime zdt) {
@@ -95,6 +104,86 @@ public class ZDTField extends Field<ZonedDateTimeFieldExpression> implements Str
 	@Override
 	public BooleanExpression<?> gte(OffsetDateTime odt) {
 		return thisAsZonedDateTime.gte(odt);
+	}
+	
+	@Override
+	public BooleanExpression<?> eq(StringExpression<?> e) {
+		return thisAsZonedDateTime.eq(e);
+	}
+
+	@Override
+	public BooleanExpression<?> neq(StringExpression<?> e) {
+		return thisAsZonedDateTime.neq(e);
+	}
+
+	@Override
+	public BooleanExpression<?> lt(StringExpression<?> e) {
+		return thisAsZonedDateTime.lt(e);
+	}
+
+	@Override
+	public BooleanExpression<?> lte(StringExpression<?> e) {
+		return thisAsZonedDateTime.lte(e);
+	}
+
+	@Override
+	public BooleanExpression<?> gt(StringExpression<?> e) {
+		return thisAsZonedDateTime.gt(e);
+	}
+
+	@Override
+	public BooleanExpression<?> gte(StringExpression<?> e) {
+		return thisAsZonedDateTime.gte(e);
+	}
+
+	@Override
+	public BooleanExpression<?> eq(String e) {
+		return thisAsZonedDateTime.eq(e);
+	}
+
+	@Override
+	public BooleanExpression<?> neq(String e) {
+		return thisAsZonedDateTime.neq(e);
+	}
+
+	@Override
+	public BooleanExpression<?> lt(String e) {
+		return thisAsZonedDateTime.lt(e);
+	}
+
+	@Override
+	public BooleanExpression<?> lte(String e) {
+		return thisAsZonedDateTime.lte(e);
+	}
+
+	@Override
+	public BooleanExpression<?> gt(String e) {
+		return thisAsZonedDateTime.gt(e);
+	}
+
+	@Override
+	public BooleanExpression<?> gte(String e) {
+		return thisAsZonedDateTime.gte(e);
+	}
+
+	@Override
+	public BooleanExpression<?> isNull() {
+		return thisAsZonedDateTime.isNull();
+	}
+
+	@Override
+	public BooleanExpression<?> isNotNull() {
+		return thisAsZonedDateTime.isNotNull();
+	}
+
+	@Override
+	public BooleanExpression<?> in(Expression<?> e) {
+		return thisAsZonedDateTime.in(e);
+	}
+
+	@Override
+	public BooleanExpression<?> notIn(Expression<?> e) {
+		return thisAsZonedDateTime.notIn(e);
 	}
 	
 	@Override
@@ -168,22 +257,28 @@ public class ZDTField extends Field<ZonedDateTimeFieldExpression> implements Str
 	}
 	
 	@Override
+	public BooleanExpression<?> neqIgnoreCase(StringExpression<?> e) {
+		return thisAsZonedDateTime.neqIgnoreCase(e);
+	}
+	
+	
+	@Override
 	public ZonedDateTimeFieldExpression parenthesize() {
-		return (ZonedDateTimeFieldExpression) super.parenthesize();
+		return  super.parenthesize();
 	}
 	
 	@Override
 	public ZonedDateTimeFieldExpression unBoundVariables() {
-		return (ZonedDateTimeFieldExpression) super.unBoundVariables();
+		return super.unBoundVariables();
 	}
 	@Override
 	public ZonedDateTimeFieldExpression alias(String alias) {
-		return (ZonedDateTimeFieldExpression) super.alias(alias);
+		return super.alias(alias);
 	}
 
 	@Override
 	public ZonedDateTimeFieldExpression qualify(String qualifier) {
-		return (ZonedDateTimeFieldExpression) super.qualify(qualifier);
+		return  super.qualify(qualifier);
 	}
 	
 	@Override
@@ -198,238 +293,147 @@ public class ZDTField extends Field<ZonedDateTimeFieldExpression> implements Str
 
 	@Override
 	public StringExpression<?> concat(StringExpression<?> str) {
-		return stringified.concat(str);
+		return thisAsZonedDateTime.concat(str);
 	}
 
 	@Override
 	public StringExpression<?> concat(String str) {
-		return stringified.concat(str);
+		return thisAsZonedDateTime.concat(str);
 	}
 
 	@Override
 	public StringExpression<?> lower() {
-		return stringified.lower();
+		return thisAsZonedDateTime.lower();
 	}
 
 	@Override
 	public StringExpression<?> upper() {
-		return stringified.upper();
+		return thisAsZonedDateTime.upper();
 	}
 
 	@Override
 	public NumericExpression<?> charLength() {
-		return stringified.charLength();
+		return thisAsZonedDateTime.charLength();
 	}
 
-	@Override
-	public StringExpression<?> max() {
-		return stringified.max();
-	}
-
-	@Override
-	public StringExpression<?> min() {
-		return stringified.min();
-	}
-
+	
 	@Override
 	public StringExpression<?> aggregate(String delimeter) {
-		return stringified.aggregate(delimeter);
+		return thisAsZonedDateTime.aggregate(delimeter);
 	}
 
 	@Override
 	public StringExpression<?> aggregate(StringExpression<?> delimeter) {
-		return stringified.aggregate(delimeter);
+		return thisAsZonedDateTime.aggregate(delimeter);
 	}
 
 	@Override
 	public StringExpression<?> aggregate(String delimeter, Expression<?> orderBy) {
-		return stringified.aggregate(delimeter, orderBy);
+		return thisAsZonedDateTime.aggregate(delimeter, orderBy);
 	}
 
 	@Override
 	public StringExpression<?> aggregate(StringExpression<?> delimeter, Expression<?> orderBy) {
-		return stringified.aggregate(delimeter, orderBy);
+		return thisAsZonedDateTime.aggregate(delimeter, orderBy);
 	}
 
 	@Override
 	public StringExpression<?> aggregate(String delimeter, Expression<?> orderedBy, boolean ascending) {
-		return stringified.aggregate(delimeter, orderedBy, ascending);
+		return thisAsZonedDateTime.aggregate(delimeter, orderedBy, ascending);
 	}
 
 	@Override
 	public StringExpression<?> aggregate(StringExpression<?> delimeter, Expression<?> orderedBy, boolean ascending) {
-		return stringified.aggregate(delimeter, orderedBy, ascending);
+		return thisAsZonedDateTime.aggregate(delimeter, orderedBy, ascending);
 	}
 
 	@Override
 	public BooleanExpression<?> eqIgnoreCase(StringExpression<?> e) {
-		return stringified.eqIgnoreCase(e);
+		return thisAsZonedDateTime.eqIgnoreCase(e);
 	}
-
-	@Override
-	public BooleanExpression<?> neqIgnoreCase(StringExpression<?> e) {
-		return stringified.neqIgnoreCase(e);
-	}
+	
 
 	@Override
 	public BooleanExpression<?> ltIgnoreCase(StringExpression<?> e) {
-		return stringified.ltIgnoreCase(e);
+		return thisAsZonedDateTime.ltIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> lteIgnoreCase(StringExpression<?> e) {
-		return stringified.lteIgnoreCase(e);
+		return thisAsZonedDateTime.lteIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> gtIgnoreCase(StringExpression<?> e) {
-		return stringified.gtIgnoreCase(e);
+		return thisAsZonedDateTime.gtIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> gteIgnoreCase(StringExpression<?> e) {
-		return stringified.gteIgnoreCase(e);
+		return thisAsZonedDateTime.gteIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> eqIgnoreCase(String e) {
-		return stringified.eqIgnoreCase(e);
+		return thisAsZonedDateTime.eqIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> neqIgnoreCase(String e) {
-		return stringified.neqIgnoreCase(e);
+		return thisAsZonedDateTime.neqIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> ltIgnoreCase(String e) {
-		return stringified.ltIgnoreCase(e);
+		return thisAsZonedDateTime.ltIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> lteIgnoreCase(String e) {
-		return stringified.lteIgnoreCase(e);
+		return thisAsZonedDateTime.lteIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> gtIgnoreCase(String e) {
-		return stringified.gtIgnoreCase(e);
+		return thisAsZonedDateTime.gtIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> gteIgnoreCase(String e) {
-		return stringified.gteIgnoreCase(e);
+		return thisAsZonedDateTime.gteIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> like(StringExpression<?> e) {
-		return stringified.like(e);
+		return thisAsZonedDateTime.like(e);
 	}
 
 	@Override
 	public BooleanExpression<?> like(String e) {
-		return stringified.like(e);
+		return thisAsZonedDateTime.like(e);
 	}
 
 	@Override
 	public BooleanExpression<?> ilike(StringExpression<?> e) {
-		return stringified.ilike(e);
+		return thisAsZonedDateTime.ilike(e);
 	}
 
 	@Override
 	public BooleanExpression<?> ilike(String e) {
-		return stringified.ilike(e);
+		return thisAsZonedDateTime.ilike(e);
 	}
 
 	@Override
 	public BooleanExpression<?> likeIgnoreCase(StringExpression<?> e) {
-		return stringified.likeIgnoreCase(e);
+		return thisAsZonedDateTime.likeIgnoreCase(e);
 	}
 
 	@Override
 	public BooleanExpression<?> likeIgnoreCase(String e) {
-		return stringified.likeIgnoreCase(e);
+		return thisAsZonedDateTime.likeIgnoreCase(e);
 	}
 
-	@Override
-	public BooleanExpression<?> eq(StringExpression<?> e) {
-		return stringified.eq(e);
-	}
-
-	@Override
-	public BooleanExpression<?> neq(StringExpression<?> e) {
-		return stringified.neq(e);
-	}
-
-	@Override
-	public BooleanExpression<?> lt(StringExpression<?> e) {
-		return stringified.lt(e);
-	}
-
-	@Override
-	public BooleanExpression<?> lte(StringExpression<?> e) {
-		return stringified.lte(e);
-	}
-
-	@Override
-	public BooleanExpression<?> gt(StringExpression<?> e) {
-		return stringified.gt(e);
-	}
-
-	@Override
-	public BooleanExpression<?> gte(StringExpression<?> e) {
-		return stringified.gte(e);
-	}
-
-	@Override
-	public BooleanExpression<?> eq(String e) {
-		return stringified.eq(e);
-	}
-
-	@Override
-	public BooleanExpression<?> neq(String e) {
-		return stringified.neq(e);
-	}
-
-	@Override
-	public BooleanExpression<?> lt(String e) {
-		return stringified.lt(e);
-	}
-
-	@Override
-	public BooleanExpression<?> lte(String e) {
-		return stringified.lte(e);
-	}
-
-	@Override
-	public BooleanExpression<?> gt(String e) {
-		return stringified.gt(e);
-	}
-
-	@Override
-	public BooleanExpression<?> gte(String e) {
-		return stringified.gte(e);
-	}
-
-	@Override
-	public BooleanExpression<?> isNull() {
-		return stringified.isNull();
-	}
-
-	@Override
-	public BooleanExpression<?> isNotNull() {
-		return stringified.isNotNull();
-	}
-
-	@Override
-	public BooleanExpression<?> in(Expression<?> e) {
-		return stringified.in(e);
-	}
-
-	@Override
-	public BooleanExpression<?> notIn(Expression<?> e) {
-		return stringified.notIn(e);
-	}
+	
 
 	
 

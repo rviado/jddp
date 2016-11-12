@@ -35,10 +35,11 @@ public class UUIDExpressionTest extends BaseTest {
 		
 		Set<VariableExpression> p = e.getBoundVariables();
 
-		assertEquals(0, p.size());
+		assertEquals(1, p.size());
 		
-	    assertEquals(_Sample.$pkey + " = $$" + key1 + "$$", e.toString());
-		
+	    assertEquals(_Sample.$pkey + " = CAST(:" + p.iterator().next().getName() + " as uuid)", e.toString());
+	    assertEquals(_Sample.$pkey + " = CAST($$" + key1 + "$$ as uuid)", e.unBoundVariables().toString());
+	    
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
 	    assertEquals(true, rs.getResultAt(0, 0));
 	    
@@ -56,9 +57,10 @@ public class UUIDExpressionTest extends BaseTest {
 		
 		Set<VariableExpression> p = e.getBoundVariables();
 
-		assertEquals(0, p.size());
+		assertEquals(1, p.size());
 		
-	    assertEquals(_Sample.$pkey + " <> $$" + key1 + "$$", e.toString());
+	    assertEquals(_Sample.$pkey + " <> CAST(:" + p.iterator().next().getName() + " as uuid)", e.toString());
+	    assertEquals(_Sample.$pkey + " <> CAST($$" + key1 + "$$ as uuid)", e.unBoundVariables().toString());
 		
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
 	    assertEquals(false, rs.getResultAt(0, 0));
@@ -77,9 +79,10 @@ public class UUIDExpressionTest extends BaseTest {
 		
 		Set<VariableExpression> p = e.getBoundVariables();
 
-		assertEquals(0, p.size());
+		assertEquals(1, p.size());
 		
-	    assertEquals(_Sample.$pkey + " > $$" + key1 + "$$", e.toString());
+		assertEquals(_Sample.$pkey + " > CAST(:" + p.iterator().next().getName() + " as uuid)", e.toString());
+	    assertEquals(_Sample.$pkey + " > CAST($$" + key1 + "$$ as uuid)", e.unBoundVariables().toString());
 		
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
 	    assertEquals(false, rs.getResultAt(0, 0));
@@ -98,9 +101,12 @@ public class UUIDExpressionTest extends BaseTest {
 		
 		Set<VariableExpression> p = e.getBoundVariables();
 
-		assertEquals(0, p.size());
+		assertEquals(1, p.size());
 		
-	    assertEquals(_Sample.$pkey + " >= $$" + key1 + "$$", e.toString());
+		assertEquals(_Sample.$pkey + " >= CAST(:" + p.iterator().next().getName() + " as uuid)", e.toString());
+		
+	    assertEquals(_Sample.$pkey + " >= CAST($$" + key1 + "$$ as uuid)", e.unBoundVariables().toString());
+	    
 		
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
 	    assertEquals(true, rs.getResultAt(0, 0));
@@ -119,9 +125,10 @@ public class UUIDExpressionTest extends BaseTest {
 		
 		Set<VariableExpression> p = e.getBoundVariables();
 
-		assertEquals(0, p.size());
+		assertEquals(1, p.size());
 		
-	    assertEquals(_Sample.$pkey + " < $$" + key1 + "$$", e.toString());
+		assertEquals(_Sample.$pkey + " < CAST(:" + p.iterator().next().getName() + " as uuid)", e.toString());
+	    assertEquals(_Sample.$pkey + " < CAST($$" + key1 + "$$ as uuid)", e.unBoundVariables().toString());
 		
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
 	    assertEquals(false, rs.getResultAt(0, 0));
@@ -140,9 +147,10 @@ public class UUIDExpressionTest extends BaseTest {
 		
 		Set<VariableExpression> p = e.getBoundVariables();
 
-		assertEquals(0, p.size());
+		assertEquals(1, p.size());
 		
-	    assertEquals(_Sample.$pkey + " <= $$" + key1 + "$$", e.toString());
+		assertEquals(_Sample.$pkey + " <= CAST(:" + p.iterator().next().getName() + " as uuid)", e.toString());
+	    assertEquals(_Sample.$pkey + " <= CAST($$" + key1 + "$$ as uuid)", e.unBoundVariables().toString());
 		
 	    ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
 	    assertEquals(true, rs.getResultAt(0, 0));
