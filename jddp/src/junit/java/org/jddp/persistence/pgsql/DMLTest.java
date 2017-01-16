@@ -306,6 +306,11 @@ public class DMLTest extends BaseTest {
 		l = dml.select().where(_Sample.$pkey.eq(key)).create().execute(con);
 		assertEquals(updated, l.get(0));
 		
+		Long c = dml.select().where(_Sample.$pkey.eq(key)).create().executeCount(con);
+		
+		assertTrue(c != null);
+		assertEquals(1L, c.longValue());
+		
 		//update by field
 		List<Boolean> booleans = Arrays.asList(true, false,false);
 		Long count = dml.

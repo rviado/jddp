@@ -53,9 +53,9 @@ public interface Expression<E extends Expression<?>> {
 	public E parenthesize();
 	
 	/**
-	 * An Expression is a singleton if it contains only one Expression<br/>
-	 * A parenthesized Expression is a singleton<br/>
-	 * Everything else is not a singleton<br/>
+	 * An Expression is a leaf if it contains only one Expression<br/>
+	 * A parenthesized Expression is a leaf<br/>
+	 * Everything else is not a leaf<br/>
 	 * @return a boolean value 
 	 */
 	public boolean isLeaf();
