@@ -489,7 +489,20 @@ public class Select<E, R>  extends AbstractExpression<Select<E, R>, SelectDetach
 		sql.append("SELECT ").append(distinct).append(projectedFields);
 		if (from != null) {
 			if (varAsLiterals) {
-				sql.append(" FROM ").append(from.unBoundVariables().toString()) ;
+				if (from instanceof Select<?,?>) {
+					
+					String fromSQL = ((Select<?,?>) from).getSQL(true);
+					if (from.isLeaf()) {
+						fromSQL = "(" + fromSQL + ")";
+					}
+					if (from.getAlias() != null) {
+						fromSQL = fromSQL + " as " + from.getAlias();
+					}
+					sql.append(" FROM ").append(fromSQL);
+					
+				} else {
+					sql.append(" FROM ").append(from.unBoundVariables().toString()) ;
+				}	
 			} else {
 				sql.append(" FROM ").append(from) ;
 			}
