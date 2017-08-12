@@ -403,6 +403,7 @@ public class BooleanExpressionTest extends BaseTest {
 		BooleanExpression<?> e = _Sample._boolean.neq(_Sample._boolean);
 		Set<VariableExpression> p = e.getBoundVariables();
 		assertEquals(0, p.size());
+		System.out.println(_Sample.booleans(0));
 		assertEquals(_Sample._boolean + " <> " +  _Sample._boolean, e.toString());
 		
 		ResultSet rs = dml.select(e).where(_Sample.$pkey.eq(key1)).create().execute(con);
