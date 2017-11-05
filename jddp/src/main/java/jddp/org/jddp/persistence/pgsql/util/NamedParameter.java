@@ -19,6 +19,7 @@ import org.jddp.exception.JDDPException;
 import org.jddp.expression.Expression;
 import org.jddp.expression.FieldExpression;
 import org.jddp.expression.VariableExpression;
+import org.jddp.persistence.pgsql.Select;
 import org.jddp.persistence.util.DBType;
 import org.jddp.util.json.JSONBuilder;
 import org.postgresql.util.PGobject;
@@ -459,6 +460,25 @@ private static PGobject toPGObject(Expression<?> v, Object value, DBType dbt) th
 	return pgObject;
 }
 
+
+public static String unboundVariables(Expression<?> expr) {
+	String str = null;
+	if (expr != null) {
+		if (expr instanceof Select<?,?>) {
+			str = ((Select<?,?>) expr).getSQL(true);
+			if (expr.isLeaf()) {
+				str = "(" + str + ")";
+			}
+			if (expr.getAlias() != null) {
+				str = str + " as " + expr.getAlias();
+			}
+			return str;
+		} 
+	} 
+	
+	return expr.unBoundVariables().toString();
+	
+}
 
 public static void main(String[] args) {
 	
